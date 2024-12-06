@@ -1,29 +1,36 @@
-# Create a second program that will read the file questions.txt, formatted as described above, and pose the questions to the user. 
-# The program will keep score of the number of questions answered correctly.
 def main():
     score = 0
+    question_count = 0
 
-    # Open the file (assumes the file exists)
-    file = open("questions.txt", "r")
-    for line in file:
-        question, correct_answer = line.strip().split(",")
+    try:
+        # Open the file using 'with' for safe handling
+        with open("questions.txt", "r") as file:
+            for line in file:
+                try:
+                    question, correct_answer = line.strip().split(",", 1)
+                    question_count += 1
 
-        # Ask the user the question
-        user_answer = input(f"{question} ").strip()
+                    # Ask the user the question
+                    user_answer = input(f"{question} ").strip()
 
-        # Check if the answer is correct
-        if user_answer.lower() == correct_answer.lower():
-            print("Correct!")
-            score += 1
+                    # Check if the answer is correct
+                    if user_answer.lower() == correct_answer.lower():
+                        print("Correct!")
+                        score += 1
+                    else:
+                        print(f"Wrong! The correct answer is {correct_answer}.")
+                except ValueError:
+                    print(f"Skipping improperly formatted line: {line.strip()}")
+        
+        # Handle case of empty file
+        if question_count == 0:
+            print("No questions found in the file.")
         else:
-            print(f"Wrong! The correct answer is {correct_answer}.")
+            # Display final score
+            print(f"\nYour final score is: {score}/{question_count}")
 
-    file.close()
-
-    # Display final score
-    print(f"\nYour final score is: {score}")
+    except FileNotFoundError:
+        print("Error: The file 'questions.txt' does not exist. Please create it and try again.")
 
 if __name__ == "__main__":
     main()
-
-
