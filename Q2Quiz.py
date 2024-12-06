@@ -5,22 +5,23 @@ def main():
     try:
         # Open the file using 'with' for safe handling
         with open("hello_world.txt", "r") as file:
-            for line in file:
+            for line in file: #loop that iterates through each line in the file
                 try:
                     question, correct_answer = line.strip().split(",", 1)
                     question_count += 1
-
+                    # Splits the string into two parts based on the first comma it encounters
+                    #.strip removes any leading
                     # Ask the user the question
                     user_answer = input(f"{question} ").strip()
 
                     # Check if the answer is correct
                     if user_answer.lower() == correct_answer.lower():
-                        print("Correct!")
+                        print("correct")
                         score += 1
                     else:
-                        print(f"Wrong! The correct answer is {correct_answer}.")
+                        print(f"Wrong the answer was {correct_answer}.")
                 except ValueError:
-                    print(f"Skipping improperly formatted line: {line.strip()}")
+                    print("")
         
         # Handle case of empty file
         if question_count == 0:
@@ -30,7 +31,7 @@ def main():
             print(f"\nYour final score is: {score}/{question_count}")
 
     except FileNotFoundError:
-        print("Error: The file 'questions.txt' does not exist. Please create it and try again.")
+        print("Error")
 
 if __name__ == "__main__":
     main()
