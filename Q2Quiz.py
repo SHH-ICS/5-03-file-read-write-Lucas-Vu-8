@@ -4,7 +4,7 @@ def main():
 
     try:
         # Open the file using 'with' for safe handling
-        with open("questions.txt", "r") as file:
+        with open("hello_world.txt", "r") as file:
             for line in file:
                 try:
                     question, correct_answer = line.strip().split(",", 1)
