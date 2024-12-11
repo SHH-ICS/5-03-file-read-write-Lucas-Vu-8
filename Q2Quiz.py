@@ -4,22 +4,24 @@ question_count = 0
 try:
     # Open the file using 'with' for safe handling
     with open("questions.txt", "r") as file:
-        lines = file.readlines()
+        lines = iter(file.readlines())  # Create an iterator for the file lines
         
-        i = 0
-        while i < len(lines):
-            # Read the question block
-            question = lines[i].strip()
-            answer_a = lines[i + 1].strip()
-            answer_b = lines[i + 2].strip()
-            answer_c = lines[i + 3].strip()
-            answer_d = lines[i + 4].strip()
-            correct_answer = lines[i + 5].strip()
-            
+        for line in lines:
+            question = line.strip()
+            if not question:  # Skip empty lines
+                continue
+
+            # Read the next lines for the options and correct answer
+            answer_a = next(lines).strip()
+            answer_b = next(lines).strip()
+            answer_c = next(lines).strip()
+            answer_d = next(lines).strip()
+            correct_answer = next(lines).strip()
+
             question_count += 1
 
             # Ask the user the question and show the options
-            print(f"\n{question}")
+            print(f"{question}")
             print(f"A. {answer_a}")
             print(f"B. {answer_b}")
             print(f"C. {answer_c}")
@@ -34,15 +36,14 @@ try:
             else:
                 print(f"Wrong! The correct answer is {correct_answer}.")
 
-            # Move to the next question block
-            i += 7  # Skip to the next question block (6 lines + 1 blank line)
-
     # Handle case of empty file
     if question_count == 0:
         print("No questions found in the file.")
     else:
         # Display final score
-        print(f"\nYour final score is: {score}/{question_count}")
+        print(f"Your final score is: {score}/{question_count}")
 
 except FileNotFoundError:
-    print("Error: The file 'questions.txt' does not exist. Please create it and try again.")
+    print("Error")
+except StopIteration:
+    print("Error")
